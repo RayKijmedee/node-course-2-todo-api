@@ -17,6 +17,12 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', {useNewUrlParser: true}
 
     const db = client.db('TodoApp');
 
+
+    // ---------------Above this is connecting to the mongoDB server-----------------------------
+
+
+    
+
     // db.collection('Todos').find().count().then((count)=>{
 
     //     console.log('Todos: '+ count);

@@ -14,27 +14,30 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', {useNewUrlParser: true}
 
     const db = client.db('TodoApp');
 
-    // db.collection('Todos').insertOne({
-
-    //     text: 'Something to do',
-    //     completed: false
-
-    // }, (error, result) => {
 
 
-    //     if(err){
-    //         return console.log('Unable to insert todo', err)
-    //     }
+    // ---------------Above this is connecting to the mongoDB server-----------------------------
 
-    //     console.log(JSON.stringify(result.ops, undefined, 2))
+    // -------------- Below is creating a new table and insert a document ------------------
 
-    // })
+    db.collection('Todos').insertOne({
+
+        text: 'Something to do',
+        completed: false
+
+    }, (error, result) => {
 
 
-    // Insert new doc into Users( name, age, location)
+        if(err){
+            return console.log('Unable to insert todo', err)
+        }
+
+        console.log(JSON.stringify(result.ops, undefined, 2))
+
+    })
 
 
-
+    
 
 
     // db.collection('Users').insertOne({
