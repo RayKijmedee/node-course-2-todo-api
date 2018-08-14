@@ -1,63 +1,41 @@
+var express = require('express');
+var bodyParser = require('body-parser');  // take JSON and convert to an object
+
+var {mongoose} = require('./db/mongoose');
+var {Todo} = require('./model/todo.js');
+var {User} = require('./model/user.js');
 
 
-var mongoose = require('mongoose');
-
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+var app = express();
 
 
-// ----------Above : how Mongoose connect to the database-----------------------------
+app.use(bodyParser.json());
 
-// ----------Below: create a model for a collection ----------------------------------
+app.post('/todos', (req, res) => {
 
-var Todo = mongoose.model('Todo', {
+    var todo = new Todo({
 
-    text: {
-        type: String
-    },
+        text: req.body.text
 
-    completed: {
-        type: Boolean
-    },
+    });
 
-    completedAt: {
-        type: Number
-    }
-});
+    todo.save().then((doc) =>{
 
+        res.send(doc);
 
-// ------------Below: create a new collection ---------------------------------------
+    }, (e) => {
 
-var newTodo = new Todo({
+        res.status(400).send(e);
 
-    text: 'Cook dinner'
-
-})
-
-
-newTodo.save().then((doc)=> {
-
-    console.log('Save todo', doc)
-
-}, (e) => {
-
-    console.log('Unable to save a new todo')
-
-})
-
-var otherTodo = new Todo({
-
-    text: 'Feed the cat',
-    completed: true,
-    completedAt: 123
+    });
 
 });
 
-otherTodo.save().then((doc) => {
 
-    console.log(JSON.stringify(doc, undefined, 2));
+/*--This below set up a port and also console log to confirm--*/
 
-}, (e) => {
+app.listen(3000, () => {
 
-    console.log('Unable to add other todo' + e)
+    console.log('Started on port 3000');
+
 })
